@@ -1,0 +1,13 @@
+{
+  "name": "Hitch A Ride",
+  "description": "A community carpool",
+  "scripts": {},
+  "env": {},
+  "formation": {},
+  "addons": [],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
