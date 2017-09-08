@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import 'app/sass/app.scss';
 import store from 'app/store';
@@ -31,13 +32,22 @@ if (process.env.NODE_ENV === 'production') {
 const startApp = (AppComponent) => {
   ReactDOM.render(
     <Provider store={store}>
-      <AppComponent />
+      <Router>
+        <AppComponent />
+      </Router>
     </Provider>,
     document.getElementById('root'),
   );
 };
 
-startApp(App);
+gapi.load('auth2', () => {
+  gapi.auth2.init({
+    client_id: process.env.CLIENT_ID,
+    cookiepolicy: 'single_host_origin',
+  }).then(() => {
+    startApp(App);
+  });
+});
 
 if (module.hot) {
   module.hot.accept('./components/App', () => { startApp(require('./components/App')); });

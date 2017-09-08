@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
+require('dotenv').config({ path: '../.env' });
 
 const BUILD_DIR = path.resolve(__dirname, '../static');
 const APP_DIR = path.resolve(__dirname, '../src');
@@ -33,7 +34,10 @@ module.exports = {
       minimize: true,
       debug: false
     }),
-    new webpack.EnvironmentPlugin({ NODE_ENV: 'production' }),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production',
+      CLIENT_ID: process.env.CLIENT_ID
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendors',
       filename: 'js/vendor.js',
@@ -86,7 +90,7 @@ module.exports = {
       responseStrategy: 'cache-first',
       updateStrategy: 'all',
       externals: [
-        // 'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css',
+        'https://apis.google.com/js/api:client.js',
         'https://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100',
         'https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/css/mui.min.css',
         'https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/js/mui.min.js'

@@ -2,14 +2,14 @@ import { auth } from 'app/store/initialState';
 
 export default (state = auth, action = {}) => {
   switch (action.type) {
-    case 'SIGNIN_SUCCESS':
+    case 'SIGNIN_FULFILLED':
       return {
         ...state,
+        ...action.payload,
         isAuthenticated: true,
       };
-    case 'SIGNOUT_SUCCESS':
+    case 'SIGNOUT_FULFILLED':
       return {
-        ...state,
         isAuthenticated: false,
       };
     default:
