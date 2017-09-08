@@ -2,7 +2,11 @@
   "name": "Hitch A Ride",
   "description": "A community carpool",
   "scripts": {},
-  "env": {},
+  "env": {
+    "CLIENT_ID": {
+      "required": true
+    }
+  },
   "formation": {},
   "addons": [],
   "buildpacks": [
