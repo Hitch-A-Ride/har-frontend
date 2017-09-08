@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+require('dotenv').config();
 
 const BUILD_DIR = path.resolve(__dirname, '../static');
 const APP_DIR = path.resolve(__dirname, '../src');
@@ -27,7 +28,10 @@ module.exports = {
       debug: true
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+      CLIENT_ID: process.env.CLIENT_ID,
+    }),
     new HTMLWebpackPlugin({
       inject: false,
       template: `${PUBLIC_DIR}/index.ejs`

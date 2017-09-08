@@ -5,8 +5,9 @@ import { createStore, applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise-middleware';
 import rootReducer from 'app/reducers';
 import initialState from './initialState';
+import { catchReduxPromiseMiddlewareErrors } from './middleware';
 
-let middleware = [promiseMiddleware()];
+let middleware = [catchReduxPromiseMiddlewareErrors, promiseMiddleware()];
 let composer;
 
 if (process.env.NODE_ENV === 'production') {
