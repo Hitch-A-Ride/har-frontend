@@ -1,9 +1,0 @@
-{
-  "script": "server.js",
-  "ext": "js",
-  "ignore": ["node_modules/**/*.js", "src/**.*.js"],
-  "watch": ["server.js"],
-  "env": {
-    "NODE_ENV": "development"
-  }
-}

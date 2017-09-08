@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <!-- <link rel="manifest" href="/manifest.json" /> -->
+    <title>Hitch A Ride</title>
+    <meta name="description" content="A community carpool" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <% htmlWebpackPlugin.files.css.forEach(function(file) { %>
+    <link rel="stylesheet" href="<%= file %>" />
+    <% }) %>
+  </head>
+  <body>
+    <noscript>
+      <div class="centered-container">
+        <h3>Thank you for choosing to use Hitch A Ride!</h3>
+        <h4>You'll need to enable JavaScript to access this app.</h4>
+        <div>
+          <a href="">How do I do that?</a>
+          <a href="">Why do I need to do that?</a>
+        </div>
+      </div>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100" />
+    </noscript>
+    <div id="root"></div>
+    <% htmlWebpackPlugin.files.js.forEach(function(file) { %>
+    <script type="text/javascript" src="<%= file %>"></script>
+    <% }) %>
+    <script>
+      insertPoint = document.querySelector('[rel="shortcut icon"]');
+      head = insertPoint.parentNode;
+      [
+        'https://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100',
+      ].forEach(function(assetURL) {
+        var asset = document.createElement('link');
+        asset.href = assetURL;
+        asset.rel = 'stylesheet';
+        head.insertBefore(asset, insertPoint);
+      });
+    </script>
+  </body>
+</html>
