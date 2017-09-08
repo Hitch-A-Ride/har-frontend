@@ -24,8 +24,10 @@
         </div>
       </div>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/css/mui.min.css" />
     </noscript>
     <div id="root"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/js/mui.min.js"></script>
     <% htmlWebpackPlugin.files.js.forEach(function(file) { %>
     <script type="text/javascript" src="<%= file %>"></script>
     <% }) %>
@@ -34,6 +36,7 @@
       head = insertPoint.parentNode;
       [
         'https://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100',
+        'https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/css/mui.min.css'
       ].forEach(function(assetURL) {
         var asset = document.createElement('link');
         asset.href = assetURL;
