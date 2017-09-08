@@ -35,5 +35,8 @@
         "ClassDeclaration": true
       }
     }]
+  },
+  "settings": {
+    "import/resolver": "webpack"
   }
 }

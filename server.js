@@ -1,21 +1,16 @@
 const express = require('express');
 const morgan = require('morgan');
+const path = require('path');
 
 const app = express();
+const port = process.env.PORT || 8080;
+app.use(morgan('tiny'));
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(morgan('tiny'));
-} else {
-  app.use(morgan('dev'));
-}
-
-app.get('/', (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hitch-A-Ride coming soon!');
+app.use(express.static(path.join(__dirname, 'static')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(path.join(__dirname, 'static'), 'index.html'));
 });
 
-const port = process.env.PORT || 3000;
-
 app.listen(port, () => {
-  console.log('Hitch-A-Ride app served at', port)
+  console.log('Hitch-A-Ride app served at', port);
 });
