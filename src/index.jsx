@@ -1,8 +1,10 @@
-/* eslint global-require: "off" */
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
+import 'app/sass/app.scss';
+import store from 'app/store';
 import App from 'app/components/App';
 
 if (process.env.NODE_ENV === 'production') {
@@ -28,7 +30,9 @@ if (process.env.NODE_ENV === 'production') {
 
 const startApp = (AppComponent) => {
   ReactDOM.render(
-    <AppComponent />,
+    <Provider store={store}>
+      <AppComponent />
+    </Provider>,
     document.getElementById('root'),
   );
 };

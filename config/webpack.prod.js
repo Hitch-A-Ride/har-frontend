@@ -87,7 +87,9 @@ module.exports = {
       updateStrategy: 'all',
       externals: [
         // 'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css',
-        'https://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100'
+        'https://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100',
+        'https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/css/mui.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/js/mui.min.js'
       ],
       events: true,
       version: 'hitch-a-ride-[hash]',
