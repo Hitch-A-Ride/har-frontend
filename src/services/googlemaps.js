@@ -32,30 +32,59 @@ export const moveMapToPosition = (map, position) => {
   map.setCenter(position);
 };
 
-export const displayMap = (elementId, position) => {
+const placeMarker = (position, map, marker) => {
+  if (marker) marker.setMap(null);
+  map.setCenter(position);
+  return new google.maps.Marker({ position, map });
+};
+
+export const getArea = (location) => {
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({
+    location
+  }, (results, status) => {
+    if (status === google.maps.GeocoderStatus.OK) {
+      console.log(results);
+      console.log(results[0]);
+      console.log(results[0].formatted_address);
+    }
+  });
+};
+
+export const displayMap = (elementId, onClick, position) => {
   const map = new google.maps.Map(document.getElementById(elementId), {
-    center: defaultPosition,
+    center: position || defaultPosition,
     zoom: zoomLevel.street
   });
-  if (position) {
-    moveMapToPosition(map, position);
-  } else {
+  let marker = placeMarker(position || defaultPosition, map);
+  if (!position) {
     getCurrentPosition().then((currentPosition) => {
-      position = currentPosition;
-      moveMapToPosition(map, position);
+      marker = placeMarker(currentPosition, map, marker);
     }, (error) => {
-      const infoWindow = new google.maps.InfoWindow();
-      infoWindow.setPosition(defaultPosition);
-      infoWindow.setContent(error.hasGeolocation
-        ? "We couldn't determine your location"
-        : "Your browser doesn't support geolocation"
+      Materialize.toast(
+        error.hasGeolocation ? "We couldn't determine your location" : "Your browser doesn't support geolocation",
+        2000,
+        'red'
       );
-      infoWindow.open(map);
     });
   }
-  const marker = new google.maps.Marker({
-    position: position || defaultPosition,
-    map,
-    draggable: true
+
+  map.addListener('click', (event) => {
+    const newPosition = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng()
+    };
+
+    getArea(newPosition);
+
+    onClick({
+      position: newPosition
+    });
+
+    marker = placeMarker(newPosition, map, marker);
   });
+};
+
+export const displayCurrentLocation = (elementId, onClick) => {
+  displayMap(elementId, onClick);
 };

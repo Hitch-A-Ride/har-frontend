@@ -1,4 +1,5 @@
 export const promise = {
   SIGNIN: 'SIGNIN',
-  SIGNOUT: 'SIGNOUT'
+  SIGNOUT: 'SIGNOUT',
+  ADD_DESTINATION: 'ADD_DESTINATION',
 }
