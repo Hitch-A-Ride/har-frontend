@@ -1,12 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
+const WebpackConfig = require('webpack-config').default;
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
-require('dotenv').config({ path: '../.env' });
 
-const BUILD_DIR = path.resolve(__dirname, '../static');
-const APP_DIR = path.resolve(__dirname, '../src');
 const PUBLIC_DIR = path.resolve(__dirname, '../public');
 
 const ExtractAppCSS = new ExtractTextPlugin({
@@ -14,30 +12,13 @@ const ExtractAppCSS = new ExtractTextPlugin({
   allChunks: true
 });
 
-module.exports = {
-  devtool: 'source-map',
-  resolve: {
-    alias: {
-      app: APP_DIR,
-      public: PUBLIC_DIR,
-    },
-    extensions: ['.js', '.jsx'],
-  },
-  entry: `${APP_DIR}/index.jsx`,
-  target: 'web',
-  output: {
-    path: BUILD_DIR,
-    filename: 'js/main.js'
-  },
+module.exports = new WebpackConfig().extend('./config/webpack.base.js').merge({
   plugins: [
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false
     }),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production',
-      CLIENT_ID: process.env.CLIENT_ID
-    }),
+    new webpack.EnvironmentPlugin({ NODE_ENV: 'production' }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendors',
       filename: 'js/vendor.js',
@@ -107,18 +88,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: APP_DIR,
-        exclude: /node_modules/
-      },
-      {
-        test: /\.jsx$/,
-        loader: 'babel-loader',
-        include: APP_DIR,
-        exclude: /node_modules/
-      },
-      {
         test: /\.scss$/,
         loader: ExtractAppCSS.extract({
           fallback: 'style-loader',
@@ -131,13 +100,6 @@ module.exports = {
           fallback: 'style-loader',
           use: 'css-loader?sourceMap!csso-loader'
         })
-      },
-      {
-        test: /\.(ico|json)$/,
-        loader: 'file-loader',
-        query: {
-          name: '[name].[ext]'
-        }
       },
       {
         test: /\.(jpg|png|svg|gif)$/,
@@ -164,4 +126,4 @@ module.exports = {
       }
     ]
   }
-};
+});
