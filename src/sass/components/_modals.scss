@@ -1,0 +1,44 @@
+// ==========================================================================
+// Hitch-A-Ride Modals
+// ==========================================================================
+
+.modal {
+  display: flex !important;
+  flex-direction: column;
+  min-height: 400px;
+  max-width: 600px;
+
+  .modal-content,
+  .card-carousel,
+  .card-carousel-item {
+    height: 100%;
+    width: 100%;
+  }
+
+  .modal-content {
+    display: flex !important;
+    flex-direction: column;
+  }
+}
+
+.card-carousel-item {
+  display: flex;
+  flex-direction: column;
+
+  .card {
+    width: 100%;
+  }
+}
+
+.modal#setup-modal {
+  min-height: 450px;
+
+  .modal-content,
+  .card-carousel {
+    min-height: 450px;
+  }
+}
+
+.modal-footer {
+  z-index: 999;
+}

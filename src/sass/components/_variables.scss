@@ -13,7 +13,7 @@
 // 1. Colors
 // ==========================================================================
 $black: #000;
-$white: #fff;
+$white: #fafafa;
 $black-50: rgba(0, 0, 0, .5);
 $black-70: rgba(0, 0, 0, .7);
 $primary-color: #231dc2;
@@ -36,6 +36,6 @@ $desktop: '(orientation : landscape)';
 
 // 3. Typography
 // ==========================================================================
-$font-small: 10px;
-$font-medium: 12px;
-$font-large: 14px;
+$font-small: 14px;
+$font-medium: 16px;
+$font-large: 18px;
