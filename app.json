@@ -5,6 +5,24 @@
   "env": {
     "CLIENT_ID": {
       "required": true
+    },
+    "FIREBASE_API_KEY": {
+      "required": true
+    },
+    "FIREBASE_AUTH_DOMAIN": {
+      "required": true
+    },
+    "FIREBASE_DATABASE_URL": {
+      "required": true
+    },
+    "FIREBASE_PROJECT_ID": {
+      "required": true
+    },
+    "FIREBASE_STORAGE_BUCKET": {
+      "required": true
+    },
+    "FIREBASE_MESSAGER": {
+      "required": true
     }
   },
   "formation": {},

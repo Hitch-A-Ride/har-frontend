@@ -9,7 +9,6 @@
     <title>Hitch A Ride</title>
     <meta name="description" content="A community carpool" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <script src="https://apis.google.com/js/api:client.js"></script>
     <% htmlWebpackPlugin.files.css.forEach(function(file) { %>
     <link rel="stylesheet" href="<%= file %>" />
     <% }) %>
@@ -28,6 +27,8 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/css/mui.min.css" />
     </noscript>
     <div id="root"></div>
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/js/mui.min.js"></script>
     <% htmlWebpackPlugin.files.js.forEach(function(file) { %>
     <script type="text/javascript" src="<%= file %>"></script>

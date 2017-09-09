@@ -49,6 +49,9 @@ gapi.load('auth2', () => {
     client_id: CLIENT_ID,
     cookiepolicy: 'single_host_origin',
   }).then(() => {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(FIREBASE_CONFIG);
+    }
     startApp(App);
   });
 });

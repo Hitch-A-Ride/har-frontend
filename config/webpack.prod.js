@@ -56,34 +56,35 @@ module.exports = new WebpackConfig().extend('./config/webpack.base.js').merge({
         minifyURLs: true
       }
     }),
-    new OfflinePlugin({
-      caches: {
-        main: [
-          'index.html',
-          // 'favicon.ico',
-          'css/main.css',
-          'js/vendor.js',
-          'js/main.js',
-          // 'img/logo-128x128.png',
-          ':externals:'
-        ],
-      },
-      responseStrategy: 'cache-first',
-      updateStrategy: 'all',
-      externals: [
-        'https://apis.google.com/js/api:client.js',
-        'https://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100',
-        'https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/css/mui.min.css',
-        'https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/js/mui.min.js'
-      ],
-      events: true,
-      version: 'hitch-a-ride-[hash]',
-      ServiceWorker: {
-        output: './service-worker.js',
-        entry: `${PUBLIC_DIR}/service-worker.js`,
-        navigateFallbackURL: '/'
-      }
-    })
+    // new OfflinePlugin({
+    //   caches: {
+    //     main: [
+    //       'index.html',
+    //       // 'favicon.ico',
+    //       'css/main.css',
+    //       'js/vendor.js',
+    //       'js/main.js',
+    //       // 'img/logo-128x128.png',
+    //       ':externals:'
+    //     ],
+    //   },
+    //   responseStrategy: 'cache-first',
+    //   updateStrategy: 'all',
+    //   externals: [
+    //     'https://apis.google.com/js/api:client.js',
+    //     'https://www.gstatic.com/firebasejs/4.3.0/firebase.js',
+    //     'https://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100',
+    //     'https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/css/mui.min.css',
+    //     'https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.25/js/mui.min.js'
+    //   ],
+    //   events: true,
+    //   version: 'hitch-a-ride-[hash]',
+    //   ServiceWorker: {
+    //     output: './service-worker.js',
+    //     entry: `${PUBLIC_DIR}/service-worker.js`,
+    //     navigateFallbackURL: '/'
+    //   }
+    // })
   ],
   module: {
     rules: [

@@ -23,7 +23,7 @@ export const catchReduxPromiseMiddlewareErrors = () => {
         return next(action).catch(error => {
           // Log warning in development only
           if (process.env.NODE_ENV === 'development') {
-            console.error(error.message);
+            console.error(error);
             console.warn(`Error from ${action.type} will be handled by the appropriate service`)
             console.info('Unhandled promise rejections are a side effect of redux-promise-middleware')
           }
@@ -33,4 +33,4 @@ export const catchReduxPromiseMiddlewareErrors = () => {
 
     return next(action);
   };
-}
+};
