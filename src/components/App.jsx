@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { silentSignIn } from 'app/actions/authActions';
-import LoginPage from 'app/components/auth/LoginPage';
-import Dashboard from 'app/components/dashboard/Dashboard';
-import LaunchPage from 'app/components/launch/LaunchPage';
+import Navbar from 'app/components/layout/Navbar';
+import Main from 'app/components/layout/Main';
 
 class App extends Component {
   componentDidMount() {
@@ -18,18 +17,18 @@ class App extends Component {
 
   render() {
     return (
-      <Switch>
-        <Route exact={true} path="/" render={this.route.bind(this, LaunchPage)} />
-        <Route exact={true} path="/login" render={this.route.bind(this, LoginPage)} />
-        <Route exact={true} path="/dashboard" render={this.route.bind(this, Dashboard)} />
-      </Switch>
+      <div className="root">
+        <Navbar {...this.props} />
+        <div className="main">
+          <Main {...this.props} />
+        </div>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  email: state.auth.email,
 });
 
 const mapDispatchToProps = dispatch => ({
