@@ -1,5 +1,5 @@
 import { promise } from 'app/actions/actionTypes';
-import * as googleService from 'app/services/gapi';
+import * as googleService from 'app/services/googleauth';
 import * as firebaseService from 'app/services/firebase';
 
 export const signIn = () => ({

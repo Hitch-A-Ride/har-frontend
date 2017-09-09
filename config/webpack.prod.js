@@ -41,6 +41,7 @@ module.exports = new WebpackConfig().extend('./config/webpack.base.js').merge({
       sourceMap: true
     }),
     new HTMLWebpackPlugin({
+      apiKey: process.env.API_KEY,
       inject: false,
       template: `${PUBLIC_DIR}/index.ejs`,
       minify: {

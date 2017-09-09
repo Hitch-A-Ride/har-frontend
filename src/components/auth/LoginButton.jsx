@@ -43,7 +43,7 @@ class SignInButton extends Component {
 
   render() {
     return (
-      <a id="signin-button" className="mui-btn btn-with-logo" onClick={this.onSignInClick}>
+      <a id="signin-button" className="btn btn-with-logo" onClick={this.onSignInClick}>
         <div className="logo-container">
           {this.renderGoogleLogo()}
         </div>

@@ -35,7 +35,8 @@ module.exports = new WebpackConfig().merge({
         projectId: JSON.stringify(process.env.FIREBASE_PROJECT_ID),
         storageBucket: JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
         messagingSenderId: JSON.stringify(process.env.FIREBASE_MESSAGER)
-      }
+      },
+      API_KEY: JSON.stringify(process.env.API_KEY),
     })
   ],
   module: {
