@@ -1,20 +1,21 @@
 // ==========================================================================
-// Hitch-A-Ride preloader
+// Hitch-A-Ride Maps
 // ==========================================================================
 
-.preloader {
+.map {
   &.small {
-    height: 2.5em;
-    width: 2.5em;
+    height: 8em;
   }
 
   &.medium {
-    height: 4em;
-    width: 4em;
+    height: 12em;
   }
 
   &.large {
-    height: 5em;
-    width: 5em;
+    height: 16em;
+  }
+
+  &.full {
+    height: 100%;
   }
 }
