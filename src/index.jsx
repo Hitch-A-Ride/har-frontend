@@ -29,6 +29,10 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+if (module.hot) {
+  module.hot.accept();
+}
+
 const startApp = (AppComponent) => {
   ReactDOM.render(
     <Provider store={store}>
@@ -49,6 +53,6 @@ gapi.load('auth2', () => {
   });
 });
 
-if (module.hot) {
-  module.hot.accept('./components/App', () => { startApp(require('./components/App')); });
-}
+// if (module.hot) {
+//   module.hot.accept('./components/App', () => { startApp(require('./components/App')); });
+// }
