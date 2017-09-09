@@ -11,10 +11,6 @@ class App extends Component {
     this.props.silentSignIn();
   }
 
-  route(Component) {
-    return <Component {...this.props} />;
-  }
-
   render() {
     return (
       <div className="root">
@@ -27,9 +23,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
+const mapStateToProps = state => (state.auth);
 
 const mapDispatchToProps = dispatch => ({
   silentSignIn: () => dispatch(silentSignIn())

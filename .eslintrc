@@ -5,12 +5,14 @@
     "node": true,
     "es6": true,
     "jasmine": true,
-    "browser": true
+    "browser": true,
+    "jquery": true
   },
   "globals": {
     "firebase": false,
     "gapi": false,
-    "google": false
+    "google": false,
+    "Materialize": false
   },
   "plugins": [
     "react",
@@ -20,7 +22,7 @@
   "rules": {
     "one-var": 0,
     "one-var-declaration-per-line": 0,
-    "max-len": [2, 100, 2],
+    "max-len": [2, 120, 2],
     "new-cap": 0,
     "consistent-return": 0,
     "no-param-reassign": 0,

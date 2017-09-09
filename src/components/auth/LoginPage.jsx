@@ -6,7 +6,7 @@ import LoginButton from './LoginButton';
 class LoginPage extends React.Component {
   render() {
     if (this.props.isAuthenticated) {
-      return <Redirect push={true} to="/dashboard" />;
+      return <Redirect push to="/" />;
     } else {
       return (
         <div className="centered-container">
