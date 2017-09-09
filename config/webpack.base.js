@@ -16,6 +16,9 @@ module.exports = new WebpackConfig().merge({
     },
     extensions: ['.js', '.jsx'],
   },
+  externals: {
+    firebase: 'firebase',
+  },
   entry: `${APP_DIR}/index.jsx`,
   target: 'web',
   output: {
