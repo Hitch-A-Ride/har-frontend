@@ -4,7 +4,6 @@
 
 .btn {
   background: $white;
-  border-radius: 5px;
   box-shadow: 0 2px 4px $black-50;
   color: $secondary-text-color;
   font-weight: 400;
@@ -45,6 +44,7 @@
 .btn.btn-with-logo {
   @include btn-with-logo(14px, 1px);
 
+  border-radius: 5px;
   display: flex;
   padding: 0;
 
