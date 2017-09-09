@@ -3,19 +3,25 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 
 import LoginPage from 'app/components/auth/LoginPage';
 import Dashboard from 'app/components/dashboard/Dashboard';
-import LaunchPage from 'app/components/launch/LaunchPage';
+import Preloader from 'app/components/common/Preloader';
 
 class Main extends Component {
-  route(Component) {
-    return <Component {...this.props} />;
+  route(Page) {
+    if (this.props.signInInProgress) {
+      return (
+        <div className="centered-container">
+          <Preloader />
+        </div>
+      );
+    }
+    return <Page {...this.props} />;
   }
 
   render() {
     return (
       <Switch>
-        <Route exact={true} path="/" render={this.route.bind(this, LaunchPage)} />
-        <Route exact={true} path="/login" render={this.route.bind(this, LoginPage)} />
-        <Route exact={true} path="/dashboard" render={this.route.bind(this, Dashboard)} />
+        <Route exact path="/" render={this.route.bind(this, Dashboard)} />
+        <Route exact path="/login" render={this.route.bind(this, LoginPage)} />
       </Switch>
     );
   }

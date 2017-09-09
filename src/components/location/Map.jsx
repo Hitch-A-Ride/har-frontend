@@ -4,8 +4,18 @@ import PropTypes from 'prop-types';
 import * as GoogleMaps from 'app/services/googlemaps';
 
 class Map extends Component {
+  constructor(props) {
+    super(props);
+    this.renderMap = this.renderMap.bind(this);
+  }
+
   componentDidMount() {
-    GoogleMaps.displayMap(this.props.id);
+    this.renderMap();
+  }
+
+  renderMap() {
+    const { id, onClick, position } = this.props;
+    GoogleMaps.displayMap(id, onClick, position);
   }
 
   render() {
@@ -18,10 +28,14 @@ class Map extends Component {
 Map.propTypes = {
   id: PropTypes.string.isRequired,
   className: PropTypes.string,
+  onClick: PropTypes.func,
+  position: PropTypes.object,
 };
 
 Map.defaultProps = {
-  className: 'medium'
+  className: 'medium',
+  onClick: e => console.log(e.latLng.lat(), e.latLng.lng()),
+  position: GoogleMaps.defaultPosition,
 };
 
 export default Map;
