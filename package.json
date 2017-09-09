@@ -61,7 +61,8 @@
     "redux-promise-middleware": "4.4.1",
     "sass-loader": "6.0.6",
     "style-loader": "0.18.2",
-    "webpack": "3.5.2"
+    "webpack": "3.5.2",
+    "webpack-config": "7.4.0"
   },
   "devDependencies": {
     "eslint": "4.6.1",

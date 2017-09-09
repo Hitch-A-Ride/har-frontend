@@ -1,26 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
+const WebpackConfig = require('webpack-config').default;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-require('dotenv').config();
 
-const BUILD_DIR = path.resolve(__dirname, '../static');
-const APP_DIR = path.resolve(__dirname, '../src');
 const PUBLIC_DIR = path.resolve(__dirname, '../public');
 
-module.exports = {
-  devtool: 'source-map',
-  resolve: {
-    alias: {
-      app: APP_DIR,
-      public: PUBLIC_DIR,
-    },
-    extensions: ['.js', '.jsx'],
-  },
-  entry: `${APP_DIR}/index.jsx`,
-  target: 'web',
+module.exports = new WebpackConfig().extend('./config/webpack.base.js').merge({
   output: {
-    path: BUILD_DIR,
-    filename: 'js/bundle.js',
     publicPath: '/'
   },
   plugins: [
@@ -28,10 +14,7 @@ module.exports = {
       debug: true
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-      CLIENT_ID: process.env.CLIENT_ID,
-    }),
+    new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
     new HTMLWebpackPlugin({
       inject: false,
       template: `${PUBLIC_DIR}/index.ejs`
@@ -53,31 +36,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: APP_DIR,
-        exclude: /node_modules/
-      },
-      {
-        test: /\.jsx$/,
-        loader: 'babel-loader',
-        include: APP_DIR,
-        exclude: /node_modules/
-      },
-      {
         test: /\.scss$/,
         loader: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.css$/,
         loader: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(ico|json)$/,
-        loader: 'file-loader',
-        query: {
-          name: '[name].[ext]'
-        }
       },
       {
         test: /\.(jpg|png|svg|gif)$/,
@@ -88,4 +52,4 @@ module.exports = {
       }
     ]
   }
-};
+});

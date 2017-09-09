@@ -46,13 +46,9 @@ const startApp = (AppComponent) => {
 
 gapi.load('auth2', () => {
   gapi.auth2.init({
-    client_id: process.env.CLIENT_ID,
+    client_id: CLIENT_ID,
     cookiepolicy: 'single_host_origin',
   }).then(() => {
     startApp(App);
   });
 });
-
-// if (module.hot) {
-//   module.hot.accept('./components/App', () => { startApp(require('./components/App')); });
-// }
