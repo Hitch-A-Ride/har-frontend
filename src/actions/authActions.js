@@ -6,8 +6,8 @@ export const signIn = () => ({
   type: promise.SIGNIN,
   payload: new Promise((resolve, reject) => {
     googleService.signIn().then(({ profile, token }) => {
-      firebaseService.signIn(token).then(() => {
-        resolve(profile);
+      firebaseService.signIn(token).then((userId) => {
+        resolve({ ...profile, userId });
       }, (error) => {
         reject(error);
       });
@@ -21,8 +21,8 @@ export const silentSignIn = () => ({
   type: promise.SIGNIN,
   payload: new Promise((resolve, reject) => {
     googleService.silentSignIn().then(({ profile, token }) => {
-      firebaseService.signIn(token).then(() => {
-        resolve(profile);
+      firebaseService.signIn(token).then((userId) => {
+        resolve({ ...profile, userId });
       }, (error) => {
         reject(error);
       });
