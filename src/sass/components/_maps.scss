@@ -3,16 +3,18 @@
 // ==========================================================================
 
 .map {
+  width: 80%;
+
   &.small {
-    height: 8em;
+    height: 20em;
   }
 
   &.medium {
-    height: 12em;
+    height: 30em;
   }
 
   &.large {
-    height: 16em;
+    height: 40em;
   }
 
   &.full {

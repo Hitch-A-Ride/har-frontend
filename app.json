@@ -23,6 +23,9 @@
     },
     "FIREBASE_MESSAGER": {
       "required": true
+    },
+    "API_KEY": {
+      "required": true
     }
   },
   "formation": {},

@@ -16,6 +16,7 @@ module.exports = new WebpackConfig().extend('./config/webpack.base.js').merge({
     new webpack.HotModuleReplacementPlugin(),
     new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
     new HTMLWebpackPlugin({
+      apiKey: process.env.API_KEY,
       inject: false,
       template: `${PUBLIC_DIR}/index.ejs`
     })

@@ -9,7 +9,8 @@
   },
   "globals": {
     "firebase": false,
-    "gapi": false
+    "gapi": false,
+    "google": false
   },
   "plugins": [
     "react",

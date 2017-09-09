@@ -2,14 +2,18 @@
 // Hitch-A-Ride buttons
 // ==========================================================================
 
-.mui-btn {
+.btn {
+  background: $white;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba($black, .5);
+  box-shadow: 0 2px 4px $black-50;
+  color: $secondary-text-color;
+  font-weight: 400;
 
   &:active,
   &:hover,
   &:focus {
-    box-shadow: 2px 5px 5px rgba($black, .5);
+    background: $white;
+    box-shadow: 2px 5px 5px $black-70;
   }
 }
 
@@ -38,7 +42,7 @@
   }
 }
 
-.mui-btn.btn-with-logo {
+.btn.btn-with-logo {
   @include btn-with-logo(14px, 1px);
 
   display: flex;
