@@ -53,22 +53,20 @@ function Watchdog(database) {
 
 
 function isMaximum(rideId) {
-    // TODO: return true if maximum ride capacity reached
     const ride = this._rides.child(rideId).val();
 
     return ride.availableSeats > Object.keys(ride.child('riders').val());
 }
 
 function setBroadcastParams(rideId, params) {
-    // TODO: set Slack channel for ride.
     this._rides.child(rideId).update(
         ...params
     );
 }
 
 function getBroadcastParams(rideId) {
-    // TODO: get Slack channel for ride.
-    const ride = this._rides.child(rideId).val();
+    const ride = this._rides.child(rideId);
+
     return {
         channel: ride.channel,
         message_ts: ride.message_ts,
