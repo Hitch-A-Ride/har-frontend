@@ -4,7 +4,6 @@
 
 .btn {
   background: $white;
-  box-shadow: 0 2px 4px $black-50;
   color: $secondary-text-color;
   font-weight: 400;
 
@@ -12,7 +11,6 @@
   &:hover,
   &:focus {
     background: $white;
-    box-shadow: 2px 5px 5px $black-70;
   }
 }
 

@@ -2,6 +2,7 @@ export const promise = {
   SIGNIN: 'SIGNIN',
   SIGNOUT: 'SIGNOUT',
   ADD_DESTINATION: 'ADD_DESTINATION',
+  SAVE_PROFILE: 'SAVE_PROFILE'
 };
 
 export const data = {

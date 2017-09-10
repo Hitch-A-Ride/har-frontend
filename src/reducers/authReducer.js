@@ -13,6 +13,7 @@ export default (state = auth, action = {}) => {
         ...state,
         isAuthenticated: true,
         authInProgress: false,
+        authFailed: false,
       };
     case data.MY_PROFILE:
       return {
@@ -20,6 +21,11 @@ export default (state = auth, action = {}) => {
         ...action.payload,
       };
     case 'SIGNIN_REJECTED':
+      return {
+        isAuthenticated: false,
+        authInProgress: false,
+        authFailed: true,
+      };
     case 'SIGNOUT_FULFILLED':
       return {
         isAuthenticated: false,

@@ -15,7 +15,7 @@ class Dashboard extends Component {
       destination: ''
     };
     this.onSignOutClick = this.onSignOutClick.bind(this);
-    this.shouldShowSetup = this.shouldShowSetup.bind(this);
+    this.showSetupIfNew = this.showSetupIfNew.bind(this);
     this.onChange = this.onChange.bind(this);
     this.postRide = this.postRide.bind(this);
   }
@@ -34,9 +34,7 @@ class Dashboard extends Component {
       ampmclickable: true, // make AM PM clickable
       aftershow: () => { } // Function for after opening timepicker
     });
-    if (this.shouldShowSetup()) {
-      $('#setup-modal').modal('open');
-    }
+    this.showSetupIfNew();
   }
 
   onSignOutClick(event) {
@@ -58,9 +56,12 @@ class Dashboard extends Component {
     this.props.postRide(ride);
   }
 
-  shouldShowSetup() {
-    const { uid } = this.props;
-    return this.props.isAuthenticated && Firebase.isNewUser();
+  showSetupIfNew() {
+    Firebase.isNewUser(this.props.uid).then((isNew) => {
+      if (isNew) {
+        $('#setup-modal').modal('open');
+      }
+    });
   }
 
   render() {

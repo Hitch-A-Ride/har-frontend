@@ -7,7 +7,8 @@ import Preloader from 'app/components/common/Preloader';
 
 class Main extends Component {
   route(Page) {
-    if (this.props.authInProgress) {
+    const { authInProgress, uid, isAuthenticated } = this.props;
+    if (authInProgress || (!uid && isAuthenticated)) {
       return (
         <div className="centered-container">
           <Preloader />

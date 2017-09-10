@@ -137,7 +137,7 @@ const handleSnapshotError = function(err) {
 // Watchers
 
 const setWatchOnDatabaseReferences = (database) => {
-    watchdog = new Watchdog(database);
+    const watchdog = new Watchdog(database);
 
     watchdog.watchSnapshot(
         '/currentRides', 

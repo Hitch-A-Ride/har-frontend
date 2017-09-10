@@ -1,35 +1,52 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+
+import * as GoogleMaps from 'app/services/googlemaps';
+import * as Firebase from 'app/services/firebase';
 
 import LocationPicker from 'app/components/location/LocationPicker';
 import { CarouselItem } from 'app/components/common/PopUpCarousel';
-import { addDestination } from 'app/actions/destinationActions';
-
-const onCancel = () => {
-  $('#setup-modal').modal('close');
-};
 
 class SelectHome extends Component {
   constructor(props) {
     super(props);
-    this.onSave = this.onSave.bind(this);
+    this.onMapClick = this.onMapClick.bind(this);
+    this.save = this.save.bind(this);
   }
 
-  onSave(homeLocation) {
-    this.props.addDestination(this.props.uid, homeLocation, true);
+  onMapClick(position) {
+    this.setState({ position });
+  }
+
+  save() {
+    const { position } = this.state;
+    if (position) {
+      GoogleMaps.getArea(position)
+        .then((address) => {
+          const destination = { address, position };
+          Firebase.addDestination(this.props.uid, destination, true)
+            .then(() => {
+              this.props.nextItem();
+            }, (error) => {
+              console.error(error);
+            });
+        }, (error) => {
+          console.error(error);
+        });
+    } else {
+      Materialize.toast('Please select a location', 2000, 'red');
+    }
   }
 
   render() {
     return (
-      <CarouselItem manual name={this.props.name}>
-        <LocationPicker mapId="setup-select-home" title="Choose your home destination" onSave={this.onSave} onCancel={onCancel} />
+      <CarouselItem manual className="centered">
+        <LocationPicker mapId="setup-select-home" title="Choose your home destination" onMapClick={this.onMapClick} />
+        <div className="card-carousel-action">
+          <button className="btn-flat" onClick={this.save}>Save</button>
+        </div>
       </CarouselItem>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  addDestination: (uid, position, isDefault) => dispatch(addDestination(uid, position, isDefault))
-});
-
-export default connect(undefined, mapDispatchToProps)(SelectHome);
+export default SelectHome;

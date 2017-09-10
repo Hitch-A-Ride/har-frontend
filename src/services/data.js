@@ -27,6 +27,8 @@ export const register = (store, uid) => {
   });
 };
 
-export const unregister = () => {
-
+export const unregister = (uid) => {
+  firebase.database().ref(`/users/${uid}/destinations`).off();
+  firebase.database().ref(`/users/${uid}/defaultDestination`).off();
+  firebase.database().ref(`/users/${uid}/profile`).off();
 };

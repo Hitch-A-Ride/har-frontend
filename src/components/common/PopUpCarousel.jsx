@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 
-const select = document.querySelector;
-const selectAll = document.querySelectorAll;
-
-export const CarouselItem = ({ title, children, manual, className, name }) => (
-  <div className={`card-carousel-item ${className}`} name={name}>
+export const CarouselItem = ({ title, children, manual, className }) => (
+  <div className={`card-carousel-item ${className}`}>
     {manual
       ? children
       : <div className="card flex">
@@ -17,95 +14,75 @@ export const CarouselItem = ({ title, children, manual, className, name }) => (
   </div>
 );
 
-// const CarouselAction = ({ onPrevClick, onNextClick }) => (
-//   <div className="card-carousel-action">
-//     <a href="#!" id="prev" className="btn-flat" onClick={onPrevClick}>Previous</a>
-//     <a href="#!" id="next" className="btn-flat" onClick={onNextClick}>Next</a>
-//   </div>
-// );
-
-const showNavButtons = ({ id, modalId }) => {
-  document.querySelector(`#${modalId}.modal #prev`).classList.remove('hidden');
-  document.querySelector(`#${modalId}.modal #next`).classList.remove('hidden');
-  const position = Number(document.querySelector(`#${id}.card-carousel > .card-carousel-item.active`).getAttribute('name'));
-  const last = document.querySelectorAll(`#${id}.card-carousel > .card-carousel-item`).length;
-
-  if (position === 1) {
-    document.querySelector(`#${modalId}.modal #prev`).classList.add('hidden');
-  }
-  if (position >= last) {
-    document.querySelector(`#${modalId}.modal #next`).classList.add('hidden');
-  }
-};
-
 export class PopUpCarousel extends Component {
   constructor(props) {
     super(props);
-    this.prepareCarousel = this.prepareCarousel.bind(this);
-    this.onPrevClick = this.onPrevClick.bind(this);
-    this.onNextClick = this.onNextClick.bind(this);
+    this.firstItem = this.firstItem.bind(this);
+    this.prevItem = this.prevItem.bind(this);
+    this.nextItem = this.nextItem.bind(this);
+    this.lastItem = this.lastItem.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.childrenWithProps = this.childrenWithProps.bind(this);
   }
 
-  componentDidMount() {
-    this.prepareCarousel();
-  }
-
-  componentDidUpdate() {
-    this.prepareCarousel();
-  }
-
-  onPrevClick() {
+  removeActiveItem() {
     const { id } = this.props;
     const activeItem = $(`#${id}.card-carousel > .card-carousel-item.active`);
     activeItem.removeClass('active');
+    return activeItem;
+  }
+
+  firstItem() {
+    const { id } = this.props;
+    this.removeActiveItem();
     window.setTimeout(() => {
-      activeItem.prev().addClass('active');
-    }, 600);
-    window.setTimeout(() => {
-      showNavButtons(this.props);
+      $(`#${id}.card-carousel > .card-carousel-item`).first().addClass('active');
     }, 600);
   }
 
-  onNextClick() {
-    const { id } = this.props;
-    const activeItem = $(`#${id}.card-carousel > .card-carousel-item.active`);
-    activeItem.removeClass('active');
+  prevItem() {
     window.setTimeout(() => {
-      activeItem.next().addClass('active');
-    }, 600);
-    window.setTimeout(() => {
-      showNavButtons(this.props);
+      this.removeActiveItem().prev().addClass('active');
     }, 600);
   }
 
-  prepareCarousel() {
+  nextItem() {
+    window.setTimeout(() => {
+      this.removeActiveItem().next().addClass('active');
+    }, 600);
+  }
+
+  lastItem() {
     const { id } = this.props;
-    const carousel = document.querySelector(`#${id}.card-carousel`);
-    const items = document.querySelectorAll(`#${id}.card-carousel > .card-carousel-item`);
-    switch (items.length) {
-      case 0:
-        carousel.parentNode.removeChild(carousel);
-        break;
-      case 1:
-        break;
-      default:
-        showNavButtons(this.props);
-    }
+    this.removeActiveItem();
+    window.setTimeout(() => {
+      $(`#${id}.card-carousel > .card-carousel-item`).last().addClass('active');
+    }, 600);
+  }
+
+  closeModal() {
+    $(`#${this.props.modalId}`).modal('close');
+  }
+
+  childrenWithProps() {
+    return React.Children.map(this.props.children,
+      child => React.cloneElement(child, {
+        firstItem: this.firstItem,
+        prevItem: this.prevItem,
+        nextItem: this.nextItem,
+        lastItem: this.lastItem,
+        closeModal: this.closeModal,
+      }));
   }
 
   render() {
-    const { id, modalId, className, modalClassName, children } = this.props;
+    const { id, modalId, children, className } = this.props;
+    if (!children) return null;
     return (
-      <div id={modalId} className={`modal ${modalClassName}`}>
+      <div id={modalId} className="modal">
         <div className="modal-content">
           <div id={id} className={`card-carousel ${className}`}>
-            {children}
-          </div>
-        </div>
-        <div className="modal-footer">
-          <div className="card-carousel-action">
-            <a href="#!" id="prev" className="btn-flat hidden" onClick={this.onPrevClick}>Previous</a>
-            <a href="#!" id="next" className="btn-flat hidden" onClick={this.onNextClick}>Next</a>
+            {this.childrenWithProps()}
           </div>
         </div>
       </div>

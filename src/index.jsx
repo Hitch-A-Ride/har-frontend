@@ -50,6 +50,9 @@ Firebase.registerAuth(store)
   .then((uid) => {
     DataService.register(store, uid);
   })
-  .catch(() => {
-    // Nothing to do here
+  .catch((error) => {
+    if (error) console.error(error);
+    store.dispatch({
+      type: 'SIGNIN_REJECTED',
+    });
   });
