@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="2048 962 218 198">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #bcecf0;
+      }
+
+      .cls-1, .cls-4, .cls-6 {
+        stroke: #00838f;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-2, .cls-3 {
+        stroke: #00bcd4;
+      }
+
+      .cls-3, .cls-5, .cls-6 {
+        fill: #00838f;
+      }
+
+      .cls-4, .cls-8 {
+        fill: none;
+      }
+
+      .cls-4 {
+        stroke-width: 10px;
+      }
+
+      .cls-7 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="Symbol_2_1" data-name="Symbol 2 – 1" transform="translate(383 -36)">
+    <g id="Rectangle_16" data-name="Rectangle 16" class="cls-1" transform="translate(1696 998)">
+      <path class="cls-7" d="M30,0h93a30,30,0,0,1,30,30V66a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V30A30,30,0,0,1,30,0Z"/>
+      <path class="cls-8" d="M30,.5h93A29.5,29.5,0,0,1,152.5,30V65a.5.5,0,0,1-.5.5H1A.5.5,0,0,1,.5,65V30A29.5,29.5,0,0,1,30,.5Z"/>
+    </g>
+    <g id="Rectangle_17" data-name="Rectangle 17" class="cls-2" transform="translate(1665 1052)">
+      <rect class="cls-7" width="218" height="105" rx="20"/>
+      <rect class="cls-8" x="0.5" y="0.5" width="217" height="104" rx="19.5"/>
+    </g>
+    <g id="Rectangle_18" data-name="Rectangle 18" class="cls-3" transform="translate(1718 1156)">
+      <rect class="cls-7" width="39" height="40" rx="3"/>
+      <rect class="cls-8" x="0.5" y="0.5" width="38" height="39" rx="2.5"/>
+    </g>
+    <g id="Rectangle_19" data-name="Rectangle 19" class="cls-3" transform="translate(1803 1157)">
+      <rect class="cls-7" width="39" height="39" rx="3"/>
+      <rect class="cls-8" x="0.5" y="0.5" width="38" height="38" rx="2.5"/>
+    </g>
+    <path id="Path_5" data-name="Path 5" class="cls-4" d="M1809.631,1262.193c42.811.11,67.589-12.819,81.982-29.7,9.256-10.853,14.01-23.594,16.263-35.221a100.261,100.261,0,0,0,.452-35.082" transform="translate(1313.337 -1070.74) rotate(45)"/>
+    <circle id="Ellipse_3" data-name="Ellipse 3" class="cls-5" cx="22.5" cy="22.5" r="22.5" transform="translate(1696 1079)"/>
+    <g id="Ellipse_4" data-name="Ellipse 4" class="cls-6" transform="translate(1801 1079)">
+      <circle class="cls-7" cx="22.5" cy="22.5" r="22.5"/>
+      <circle class="cls-8" cx="22.5" cy="22.5" r="22"/>
+    </g>
+  </g>
+</svg>
