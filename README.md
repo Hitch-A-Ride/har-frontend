@@ -1,10 +1,14 @@
+![Hitch-A-Ride logo][logo]
+
 # Hitch-A-Ride
 
-A community carpooling platform.
-
-## Why build yet another app?
+A community carpooling platform that connects Andelans who are car owners with other Andelans heading towards the same route as they are, offering free rides in exchange for company and great conversation.
 
 
-![Hitch-A-Ride logo][logo]
+
+
+
+
+
 
 [logo]: logo.png
