@@ -1,6 +1,8 @@
 // important classes
 const usingContext = (self, fn) => fn.bind(self);
 
+const { broadcastRideRequest } = require('./external/invoke');
+
 function watchSnapshot(reference, handleSuccess, handleError) {
     const self = this;
     const refName = reference.replace('/', '_');
@@ -121,7 +123,12 @@ const handleCurrentRideSnapshotUpdate = function(snapshot) {
     for(let currentRideId in currentRides) {
         let ride = self._rides.child(currentRides[currentRideId].id);
         if (!ride.broadcasted) {
-            invokeAction('broadcastRideRequest', ride);
+            ride.destination = self._destinations.child(ride.destinationId).val();
+            riderOwner = self._users.child(ride.riderOwner).val();
+            ride.takeOff = self._destinations.child(ride.takeOffId).val();
+
+            broadcastRideRequest(ride);
+
             ride.update({
                 broadcasted: true
             });
