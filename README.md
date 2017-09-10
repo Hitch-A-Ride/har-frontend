@@ -5,6 +5,6 @@ A community carpooling platform.
 ## Why build yet another app?
 
 
-![alt text][logo]
+![Hitch-A-Ride logo][logo]
 
-[logo]: logo.svg
+[logo]: logo.png
