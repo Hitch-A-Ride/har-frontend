@@ -12,4 +12,8 @@ A community carpooling platform that connects Andelans who are car owners with o
 - Ride history
 - Analytics on rider reliability
 
+![Hitch-A-Ride pages][all_pages]
+
+
 [logo]: logo.png
+[all_pages]: all_pages.png
