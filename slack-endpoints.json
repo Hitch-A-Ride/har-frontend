@@ -1,9 +1,0 @@
-{
-    "users": {
-        "list": {
-          "url": "https://slack.com/api/users.list",
-          "description": "Gets list of users.",
-          "help": "https://api.slack.com/methods/users.list"
-        }
-    }
-}

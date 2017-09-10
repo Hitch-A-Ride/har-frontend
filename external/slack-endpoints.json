@@ -1,0 +1,36 @@
+{
+    "users": {
+        "list": {
+          "url": "https://slack.com/api/users.list",
+          "description": "Gets list of users.",
+          "help": "https://api.slack.com/methods/users.list"
+        }
+    },
+    "chat": {
+        "postMessage": {
+            "url": "https://slack.com/api/chat.postMessage",
+            "description": "Post Message to Slack.",
+            "help": "https://api.slack.com/methods/chat.postMessage"
+        },
+        "postEphemeral": {
+            "url": "https://slack.com/api/chat.postEphemeral",
+            "description": "Post Ephemeral message only user will see",
+            "help": "https://api.slack.com/methods/chat.postEphemeral"
+        }
+    },
+    "im": {
+        "open": {
+            "url": "https://slack.com/api/im.open",
+            "description": "Open an Im channel",
+            "help": "https://api.slack.com/methods/im.open"
+        }
+    },
+    "reactions": {
+        "add": {
+            "url": " https://slack.com/api/reactions.add",
+            "description": "Add reaction to post",
+            "help": "https://api.slack.com/methods/reactions.add"
+        }
+    }
+   
+}
