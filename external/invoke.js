@@ -63,18 +63,17 @@ function getUserFromResultOrFetchNext(key, userEmailOrId, fetchFn) {
             throw Error(responseData);
         }
 
-        for (let { profile, id } of responseData.members) {
-            if('email' == key && profile && profile[key] == userEmailOrId) {
+        for (let { profile, id} of responseData.members) {
+            if('email' == key && (profile && profile[key] == userEmailOrId)) {
                 return id;
-            }
-            if('id' == key && id == userEmailOrId) {
-                return profile && profile.email;
+            } else if('id' == key && (id == userEmailOrId) && (!profile.bot_id)) {
+                return  profile && profile.email;
             }
         }
 
         if(responseData.response_metadata) {
             return fetchFn(
-                userEmail, responseData.response_metadata.next_cursor
+                userEmailOrId, responseData.response_metadata.next_cursor
             );
         }
         return undefined;
