@@ -8,6 +8,9 @@ const {
     SLACK_VERIFICATION_TOKEN,
     SLACK_OAUTH_ACCESS_TOKEN,
     SLACK_BOT_USER_OAUTH_ACCESS_TOKEN,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    GOOGLE_GEOLOCATION_KEY
 } = process.env;
 
 const JOIN_ACTION = { 
@@ -48,6 +51,10 @@ function handleSuccessResponse(res) {
     return res.data;
 }
 
+function GMapsGet(params) {
+    params.key = GOOGLE_GEOLOCATION_KEY;
+    return axios.get('https://maps.googleapis.com/maps/api/geocode/json', { params });
+}
 
 function SlackGet(url, params) {
     params.token = SLACK_OAUTH_ACCESS_TOKEN;
@@ -102,12 +109,49 @@ function getSlackUserEmail(userId, cursor = '') {
         .catch(handleError);
 }
 
-function broadcastRideRequest(ride, rideOwner) {
-    const { dateTime, destination } = ride;
+function getLocationChannels(coords) {
+    return GMapsGet(
+        { latlng: `${coords.lat},${coords.lng}` }
+    ).then(handleSuccessResponse)
+    .then(function(data) {
+        const results = data.results;
+        const searchString = result.map(
+            (components) => components.map(
+                component => (component.long_name.toLowerCase() || '')
+            ).join(' ')).join();
+        
+        return SlackGet(SlackAPIEndpoints.channels.list.url, {
+            exclude_archived: true,
+            exclude_members: true
+        })
+        .then(handleSuccessResponse)
+        .then(data => {
+            const channels = data.channels.filter(
+                channel => channel.is_member && searchString.indexOf(channel.name.toLowerCase()) > -1
+            )
+            //get channel with maxnum of member
+            let maxSoFar = 0;
+            let selectedChannel = channels[0].id;
+            for (let channel in channels) {
+                if(channel.num_members > maxSoFar) {
+                    selectedChannel = channel.id
+                    maxSoFar = maxSoFar;
+                }
+            }
+            return selectedChannel;
+        })
+        .catch(handleError);
+
+    })
+    .catch(handleError);
+}
+
+function broadcastRideRequest(ride) {
+    const { departureTime, destination } = ride;
     const rideId = ride.id;
-    const { profile: { firstName, lastName } } = rideOwner;
+    const { profile: { firstName, lastName } } = ride.rideOwner;
     const rideOwnerSlackId = rideOwner.slackId;
-    const dateTimeInHumans = '20 mins';
+
     const attachments = [{ 
         "fallback": "Will you like to join me?", 
         "title": "Will you like to join me?",
@@ -119,18 +163,22 @@ function broadcastRideRequest(ride, rideOwner) {
         ]
     }];
 
-    const params = { 
-        channel: 'lagos-all',
-        text: `New ride request from ${firstName} ${lastName}.\nLeaving Amity to Yaba in ${dateTimeInHumans}`,
-        attachments: JSON.stringify(attachments)
-    };
-
-    return SlackGet(
-        SlackAPIEndpoints.chat.postMessage.url, 
-        params
-    )
-    .then(handleSuccessResponse)
-    .catch(handleError);
+    return getLocationChannels(takeOffCoord).then(
+        function(channel) {
+            const params = { 
+                channel,
+                text: `New ride request from ${firstName} ${lastName}.\nLeaving Amity to Yaba at ${departureTime}`,
+                attachments: JSON.stringify(attachments)
+            };
+        
+            return SlackGet(
+                SlackAPIEndpoints.chat.postMessage.url, 
+                params
+            )
+            .then(handleSuccessResponse)
+            .catch(handleError);
+        }
+    );
 }
 
 
