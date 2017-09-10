@@ -19,7 +19,7 @@ const {
 
 const app = express();
 const router = express.Router();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 const serviceAccount = JSON.parse(new Buffer(FIREBASE_SERVICE_ACCOUNT_KEY, 'base64').toString());
 

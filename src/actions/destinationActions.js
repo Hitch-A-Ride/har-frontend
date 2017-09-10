@@ -20,4 +20,9 @@ export const addDestination = (uid, position, isDefault) => ({
   })
 });
 
+export const postRide = ride => ({
+  type: 'POST_RIDE',
+  payload: ride,
+});
+
 export const editDestination = () => ({});

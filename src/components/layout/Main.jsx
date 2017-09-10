@@ -20,8 +20,8 @@ class Main extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" render={this.route.bind(this, Dashboard)} />
-        <Route exact path="/login" render={this.route.bind(this, LoginPage)} />
+        <Route path="/" render={this.route.bind(this, Dashboard)} />
+        <Route path="/login" render={this.route.bind(this, LoginPage)} />
       </Switch>
     );
   }
