@@ -27,10 +27,15 @@
     },
     "reactions": {
         "add": {
-            "url": " https://slack.com/api/reactions.add",
+            "url": "https://slack.com/api/reactions.add",
             "description": "Add reaction to post",
             "help": "https://api.slack.com/methods/reactions.add"
         }
-    }
-   
+    },
+   "channels": {
+       "list": {
+           "url": "https://slack.com/api/channels.list",
+           "help": "https://api.slack.com/methods/channels.list"
+       }
+   }
 }
