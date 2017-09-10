@@ -97,17 +97,6 @@ Watchdog.prototype.getBroadcastParams = getBroadcastParams;
 Watchdog.prototype.getRidersAsString = getRidersAsString;
 
 
-// Broadcasters
-
-const messageBroadcast = (req, res, next) => {
-    // broadcast message to slack location for user.
-    // - get country from geocoords;
-    // - post to slack location
-    // https://api.slack.com/methods/chat.postMessage
-}
-  
-
-
 // Handlers
 
 const handleRidesSnapshotUpdate = function(snapshot) {
