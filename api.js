@@ -1,4 +1,3 @@
-
 const {
     broadcastRideRequest, postEphemeral, postMessage, reactionAdd,
     getSlackUserEmail, getSlackUserId, 
@@ -9,11 +8,17 @@ const {
 
 // need google maps location of ride owner
 
-
-function handleGetSlackUserId(req, res) {
-    return getSlackUserId(req.body.email)
+function handleGetSlackUserInfo(req, res) {
+    if(req.query.email) {
+        return getSlackUserId(req.query.email)
         .then(function(slackUserId) {
             res.json({ slackUserId });
+        });
+    }
+    
+    return getSlackUserEmail(req.query.id)
+        .then(function(slackUserEmail) {
+            res.json({ slackUserEmail });
         });
 }
 
@@ -124,7 +129,7 @@ function injectApiDependencies(router, watchdog) {
     router.post('/messageInvocations', handlePostMessageInvocations(watchdog));
     router.post('/menuOptions', handlePostMenuOptions(watchdog));
     router.post('/cancelRideRequest', handlePostCancelRideRequest(watchdog));
-    router.get('/slackUserInfo', handleGetSlackUserId);
+    router.get('/slackUserInfo', handleGetSlackUserInfo);
     return router;
 }
 
