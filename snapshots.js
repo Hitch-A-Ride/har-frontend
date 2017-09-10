@@ -107,6 +107,10 @@ const handleUsersSnapshotUpdate = function(snapshot) {
     // console.log(snapshot.val());
 }
 
+const handleDestinationsSnapshotUpdate =  function(snapshot) {
+    // console.log(snapshot.val());
+}
+
 const handleCurrentRideSnapshotUpdate = function(snapshot) {
     let currentRides = snapshot.val();
     for(let currentRideId in currentRides) {
@@ -150,6 +154,12 @@ const setWatchOnDatabaseReferences = (database) => {
     watchdog.watchSnapshot(
         '/users', 
         handleUsersSnapshotUpdate,
+        handleSnapshotError
+    );
+
+    watchdog.watchSnapshot(
+        '/destinations', 
+        handleDestinationsSnapshotUpdate,
         handleSnapshotError
     );
 
