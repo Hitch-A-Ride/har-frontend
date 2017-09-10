@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import { signOut } from 'app/actions/authActions';
-import * as firebaseService from 'app/services/firebase';
+import * as Firebase from 'app/services/firebase';
 import SetupModal from 'app/components/setup/SetupModal';
 
 class Dashboard extends Component {
@@ -27,23 +26,23 @@ class Dashboard extends Component {
   }
 
   shouldShowSetup() {
-    const { userId } = this.props;
-    return this.props.isAuthenticated && firebaseService.isNewUser();
+    const { uid } = this.props;
+    return this.props.isAuthenticated && Firebase.isNewUser();
   }
 
   render() {
     if (!this.props.isAuthenticated) return <Redirect push to="/login" />;
-    const { firstName, lastName, userId } = this.props;
+    const { displayName, uid } = this.props;
     return (
       <div className="centered-container">
-        <h1>Hi, {`${firstName} ${lastName}!`}</h1>
+        <h1>Hi, {displayName}!</h1>
         <br />
         <h4>This app is still under construction</h4>
         <br />
         <button id="signout-button" className="btn" onClick={this.onSignOutClick}>
           Sign Out
         </button>
-        {this.shouldShowSetup() && <SetupModal userId={userId} />}
+        {this.shouldShowSetup() && <SetupModal uid={uid} />}
       </div>
     );
   }

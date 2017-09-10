@@ -11,6 +11,12 @@ export const zoomLevel = {
   building: 20
 };
 
+export const areaLevel = [
+  'neighborhood',
+  'sublocality',
+  'locality',
+];
+
 export const getCurrentPosition = () => (
   new Promise((resolve, reject) => {
     if (navigator.geolocation) {
@@ -38,18 +44,57 @@ const placeMarker = (position, map, marker) => {
   return new google.maps.Marker({ position, map });
 };
 
-export const getArea = (location) => {
-  const geocoder = new google.maps.Geocoder();
-  geocoder.geocode({
-    location
-  }, (results, status) => {
-    if (status === google.maps.GeocoderStatus.OK) {
-      console.log(results);
-      console.log(results[0]);
-      console.log(results[0].formatted_address);
+export const geocode = location => (
+  new Promise((resolve, reject) => {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({
+      location
+    }, (results, status) => {
+      if (status === google.maps.GeocoderStatus.OK && results[0]) {
+        resolve(results[0]);
+      } else {
+        reject();
+      }
+    });
+  })
+);
+
+const filterAddressComponents = (addressComponents) => {
+  let country;
+  let area;
+  let neighborhood;
+
+  addressComponents.forEach((component) => {
+    if (component.types.indexOf('country') > -1) {
+      country = component.long_name;
+    }
+    if (component.types.indexOf('sublocality') > -1) {
+      area = component.long_name;
+    }
+    if (component.types.indexOf('neighborhood') > -1) {
+      neighborhood = component.long_name;
     }
   });
+
+  return { country, area, neighborhood };
 };
+
+export const getArea = location => (
+  new Promise((resolve, reject) => {
+    geocode(location).then((geoCodeResult) => {
+      const address = filterAddressComponents(geoCodeResult.address_components);
+      if (!address.country || !address.area || !address.neighborhood) {
+        Materialize.toast('An error occurred while parsing your destination');
+        reject();
+      } else {
+        resolve(address);
+      }
+    }, () => {
+      Materialize.toast('An error occurred while parsing your destination');
+      reject();
+    });
+  })
+);
 
 export const displayMap = (elementId, onClick, position) => {
   const map = new google.maps.Map(document.getElementById(elementId), {
@@ -75,11 +120,7 @@ export const displayMap = (elementId, onClick, position) => {
       lng: event.latLng.lng()
     };
 
-    getArea(newPosition);
-
-    onClick({
-      position: newPosition
-    });
+    onClick(newPosition);
 
     marker = placeMarker(newPosition, map, marker);
   });

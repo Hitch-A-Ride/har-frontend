@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import LocationPicker from 'app/components/location/LocationPicker';
 import { CarouselItem } from 'app/components/common/PopUpCarousel';
-import { addDestination } from 'app/services/firebase';
+import { addDestination } from 'app/actions/destinationActions';
 
 const onCancel = () => {
   $('#setup-modal').modal('close');
@@ -15,14 +16,7 @@ class SelectHome extends Component {
   }
 
   onSave(homeLocation) {
-    console.log(homeLocation);
-    addDestination(this.props.userId, homeLocation, true)
-      .then(() => {
-        $('#setup-modal').modal('close');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this.props.addDestination(this.props.uid, homeLocation, true);
   }
 
   render() {
@@ -34,4 +28,8 @@ class SelectHome extends Component {
   }
 }
 
-export default SelectHome;
+const mapDispatchToProps = dispatch => ({
+  addDestination: (uid, position, isDefault) => dispatch(addDestination(uid, position, isDefault))
+});
+
+export default connect(undefined, mapDispatchToProps)(SelectHome);
