@@ -7,4 +7,4 @@ A community carpooling platform.
 
 ![alt text][logo]
 
-[logo]: 'logo.svg'
+[logo]: logo.svg
