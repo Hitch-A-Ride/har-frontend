@@ -1,91 +1,135 @@
-const axios = require('axios');
 
-const SlackAPIEndpoints = require('./slack-endpoints');
-const querystring = require('querystring');
 const {
-  SLACK_CLIENT_ID,
-  SLACK_CLIENT_SECRET,
-  SLACK_VERIFICATION_TOKEN,
-  SLACK_OAUTH_ACCESS_TOKEN,
-  SLACK_BOT_USER_OAUTH_ACCESS_TOKEN,
-} = process.env;
+    broadcastRideRequest, postEphemeral, postMessage, reactionAdd,
+    getSlackUserEmail, getSlackUserId, 
+    JOIN_ACTION, LEAVE_ACTION,
+    LOCKDOWN_ACTION,
+    REMOVE_ACTION,
+} = require('./external/invoke');
 
 // need google maps location of ride owner
 
-const getUserFullname = () => {
 
+function handleGetSlackUserId(req, res) {
+    return getSlackUserId(req.body.email)
+        .then(function(slackUserId) {
+            res.json({ slackUserId });
+        });
 }
 
+function handlePostMessageInvocations(watchdog) {
+    return (req, res) => {
+        const payload = JSON.parse(req.body.payload);
+        const responseUrl = payload.response_url;
+        const slackUserId = payload.user.id;
+        let channel = payload.channel.id;
+        const originalMessage = payload.original_message;
+            
+        
+        const [ existingAction, rideId, rideOwnerSlackId, ...others] = payload.callback_id.split(':');
+        // maps slack id to email if not create rider
+        let copyMessage = { ...originalMessage };
+        const sentAction = copyMessage.attachments[0].actions[0];
 
-const getUserFromResultOrFetchNext = (userEmail, fetchFn) => (response) => {
-    const responseData = response.data;
+        if(JOIN_ACTION.value == sentAction.value) {
+            getSlackUserEmail(slackUserId).then(email => {
+                let rider = watchdog.getOrCreateUser(slackUserId, email);
+                watchdog.addRider(rideId, rider.id);
+                copyMessage.callback_id = `cancelJoinRideAction:${rideId}:${rideOwnerSlackId}:${rider.id}`;
+                copyMessage.attachments[0].actions = JSON.stringify([
+                    LEAVE_ACTION
+                ]);
 
+                watchdog.setBroadcastParams(rideId, {
+                    channel,
+                    message_ts: payload.message_ts,
+                    text: originalMessage.text,
+                });
+                
+                if(watchdog.isMaximum(rideId)) {
+                    let riders = watchdog.getRidersAsString(rideId);
 
-    if (! responseData.ok) {
-        console.log('here')
-        throw Error(responseData);
-    }
+                    const attachments = [{ 
+                        "fallback": "Will you like to lockdown now?", 
+                        "title": "Will you like to lockdown now?",
+                        "callback_id": `lockDownAction:${rideId}:${rideOwnerSlackId}`, 
+                        "color": "#606089",
+                        "attachment_type": "default",
+                        "actions": [
+                            LOCKDOWN_ACTION
+                        ]
+                    }];
 
-    for (let { profile, id } of responseData.members) {
-        if(profile && profile.email == userEmail) {
-            return id;
+                    postMessage(rideOwnerSlackId, {
+                        ...copyMessage, 
+                        text: `Your ride request was attended to by ${riders}.\n When you commence your ride, click the button to lock it down.`,
+                        attachments,
+                    }); // send DM to rideOwner
+                }
+
+                postEphemeral({channel, user: slackUserId, ...copyMessage});
+            }).catch(err => console.log(err.message));
+            
+        } else if (LEAVE_ACTION.value == sentAction.value) {
+            let riderId = others[0];
+            watchdog.removeRider(rideId, riderId);
+            copyMessage.callback_id = `joinRideAction:${rideId}:${rideOwnerSlackId}`;
+            copyMessage.attachments[0].actions = JSON.stringify([
+                JOIN_ACTION 
+            ]);
+            postEphemeral({ channel, user: slackUserId, ...copyMessage});
+        } else if (LOCKDOWN_ACTION.value == sentAction.value) {
+            copyMessage.attachments[0].actions = [];
+            postEphemeral({ channel, user: slackUserId, ...copyMessage}); //removing actions in DM
+            
+            let broadcastParams = watchdog.getBroadCastParams(rideId);
+
+            copyMessage = {
+                text: broadcastParams.text, 
+                attachments: JSON.stringify([])
+            };
+            postMessage(broadcastParams.channel, copyMessage); //removing actions in broadcast channel
+
+            reactionAdd({name:'lock', channel: broadcastParams.channel, timestamp: broadcastParams.message_ts});
         }
+
+        return res.sendStatus(200);
     }
+}
 
-    if(responseData.response_metadata) {
-        return fetchFn(
-            userEmail, responseData.response_metadata.next_cursor
-        );
+
+function handlePostMenuOptions(watchdog) {
+    return (req, res) => {
+        return res.sendStatus(200);
+    };
+}
+
+function handlePostCancelRideRequest(watchdog) {
+    return (req, res) => {
+        const { rideId } = req.body;
+        const broadcastParams = watchdog.getBroadCastParams(rideId);
+        
+        const copyMessage = {
+            text: broadcastParams.text, 
+            attachments: JSON.stringify([])
+        };
+
+        postMessage(broadcastParams.channel, copyMessage);
+        reactionAdd({name:'x', channel: broadcastParams.channel, timestamp: broadcastParams.message_ts});
+        return res.sendStatus(200);
     }
-    return undefined;
 }
 
-const getSlackUserId = (userEmail, cursor = '') => {
-    const params = { token: SLACK_OAUTH_ACCESS_TOKEN, cursor }
-
-    return axios.get(
-            SlackAPIEndpoints.users.list.url, 
-            { params }
-        )
-        .then(getUserFromResultOrFetchNext(userEmail, getSlackUserId))
-        .catch(err => err.message);
-}
-
-const handleGetSlackUserId = (req, res) => {
-    getSlackUserId(req.body.email).then(function(slackUserId) {
-        res.json({ slackUserId });
-    });
-}
-
-const handlePostMessageInvocations = (req, res, next) => {
-    // when users invoke message buttons.
-    // get user_id, user_email, user_id ride_request_id,
-    // send response with an ephemeral message to cancel acceptance
-    // https://api.slack.com/methods/chat.postEphemeral
-
-    // check rider count
-    // if(len)
-    // when rider count hits limit, DM ride owner
-    // Invoke('slackDM', {rideOwner: 'x01'})
-    
-    // if ride owner accepts message,
-    // edit interactive message and remove join button and put a lock on message
-   return res.send('Working');
-}
-
-
-const handlePostMenuOptions = (req, res, next) => {
-    return res.status(200);
+function injectApiDependencies(router, watchdog) {
+    router.post('/messageInvocations', handlePostMessageInvocations(watchdog));
+    router.post('/menuOptions', handlePostMenuOptions(watchdog));
+    router.post('/cancelRideRequest', handlePostCancelRideRequest(watchdog));
+    router.get('/slackUserInfo', handleGetSlackUserId);
+    return router;
 }
 
 
 module.exports = {
-    api: (router) => {
-        router.post('/messageInvocations', handlePostMessageInvocations);
-        router.post('/menuOptions', handlePostMenuOptions);
-        router.get('/slackUserInfo', handleGetSlackUserId);
-
-        return router;
-    },
+    injectApiDependencies,
     getSlackUserId,
 }
