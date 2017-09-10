@@ -5,14 +5,26 @@
 .map {
   &.small {
     height: 10em;
+
+    @media screen and (max-width: 480px) {
+      height: 8em;
+    }
   }
 
   &.medium {
     height: 18em;
+
+    @media screen and (max-width: 480px) {
+      height: 15em;
+    }
   }
 
   &.large {
     height: 28em;
+
+    @media screen and (max-width: 480px) {
+      height: 22em;
+    }
   }
 
   &.full {

@@ -1,6 +1,6 @@
 export const auth = {
   isAuthenticated: false,
-  signInInProgress: true,
+  authInProgress: true,
 };
 
 export default {
