@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import * as Firebase from 'app/services/firebase';
 import { CarouselItem } from 'app/components/common/PopUpCarousel';
-import { saveProfile } from 'app/actions/authActions';
 
 class SelectRideDetails extends Component {
   constructor(props) {
@@ -40,7 +38,7 @@ class SelectRideDetails extends Component {
   save() {
     if (this.state.time && this.state.seats) {
       console.log(this.state);
-      Firebase.saveProfile(this.props.uid, this.state)
+      Firebase.setDefault(this.props.uid, this.state)
         .then(() => {
           this.props.nextItem();
         })
@@ -94,8 +92,4 @@ class SelectRideDetails extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  saveProfile: profileDetails => dispatch(saveProfile(profileDetails))
-});
-
-export default connect(undefined, mapDispatchToProps)(SelectRideDetails);
+export default SelectRideDetails;
