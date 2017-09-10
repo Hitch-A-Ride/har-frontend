@@ -9,8 +9,7 @@ const {
     SLACK_OAUTH_ACCESS_TOKEN,
     SLACK_BOT_USER_OAUTH_ACCESS_TOKEN,
     CLIENT_ID,
-    CLIENT_SECRET,
-    GOOGLE_GEOLOCATION_KEY
+    API_KEY
 } = process.env;
 
 const JOIN_ACTION = { 
@@ -52,7 +51,7 @@ function handleSuccessResponse(res) {
 }
 
 function GMapsGet(params) {
-    params.key = GOOGLE_GEOLOCATION_KEY;
+    params.key = API_KEY;
     return axios.get('https://maps.googleapis.com/maps/api/geocode/json', { params });
 }
 
