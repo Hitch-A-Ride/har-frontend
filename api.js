@@ -82,7 +82,7 @@ function handlePostMessageInvocations(watchdog) {
             copyMessage.attachments[0].actions = [];
             postEphemeral({ channel, user: slackUserId, ...copyMessage}); //removing actions in DM
             
-            let broadcastParams = watchdog.getBroadCastParams(rideId);
+            let broadcastParams = watchdog.getBroadcastParams(rideId);
 
             copyMessage = {
                 text: broadcastParams.text, 
@@ -107,7 +107,7 @@ function handlePostMenuOptions(watchdog) {
 function handlePostCancelRideRequest(watchdog) {
     return (req, res) => {
         const { rideId } = req.body;
-        const broadcastParams = watchdog.getBroadCastParams(rideId);
+        const broadcastParams = watchdog.getBroadcastParams(rideId);
         
         const copyMessage = {
             text: broadcastParams.text, 
