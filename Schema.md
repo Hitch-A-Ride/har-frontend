@@ -14,6 +14,7 @@ rides: [
     {
         id
         destinationId
+        takeOffId
         rideOwner
         riders: [
             {
