@@ -5,15 +5,12 @@ import LoginButton from './LoginButton';
 
 class LoginPage extends React.Component {
   render() {
-    if (this.props.isAuthenticated) {
-      return <Redirect push to="/" />;
-    } else {
-      return (
-        <div className="centered-container">
-          <LoginButton />
-        </div>
-      );
-    }
+    if (this.props.isAuthenticated) return <Redirect push to="/" />;
+    return (
+      <div className="centered-container">
+        <LoginButton />
+      </div>
+    );
   }
 }
 

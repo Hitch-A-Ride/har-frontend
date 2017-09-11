@@ -3,6 +3,13 @@ export const auth = {
   authInProgress: true,
 };
 
+export const ride = {
+  destination: '',
+  seats: 1,
+  time: '',
+};
+
 export default {
   auth,
+  ride
 };

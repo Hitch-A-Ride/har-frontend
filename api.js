@@ -1,6 +1,6 @@
 const {
     broadcastRideRequest, postEphemeral, postMessage, reactionAdd,
-    getSlackUserEmail, getSlackUserId, 
+    getSlackUserEmail, getSlackUserId,
     JOIN_ACTION, LEAVE_ACTION,
     LOCKDOWN_ACTION,
     REMOVE_ACTION,
@@ -9,15 +9,15 @@ const {
 // need google maps location of ride owner
 
 function handleGetSlackUserInfo(req, res) {
-    if(req.query.email) {
+    if (req.query.email) {
         return getSlackUserId(req.query.email)
-        .then(function(slackUserId) {
-            res.json({ slackUserId });
-        });
+            .then(function (slackUserId) {
+                res.json({ slackUserId });
+            });
     }
-    
+
     return getSlackUserEmail(req.query.id)
-        .then(function(slackUserEmail) {
+        .then(function (slackUserEmail) {
             res.json({ slackUserEmail });
         });
 }
@@ -29,14 +29,14 @@ function handlePostMessageInvocations(watchdog) {
         const slackUserId = payload.user.id;
         let channel = payload.channel.id;
         const originalMessage = payload.original_message;
-            
-        
-        const [ existingAction, rideId, rideOwnerSlackId, ...others] = payload.callback_id.split(':');
+
+
+        const [existingAction, rideId, rideOwnerSlackId, ...others] = payload.callback_id.split(':');
         // maps slack id to email if not create rider
         let copyMessage = { ...originalMessage };
         const sentAction = copyMessage.attachments[0].actions[0];
 
-        if(JOIN_ACTION.value == sentAction.value) {
+        if (JOIN_ACTION.value == sentAction.value) {
             getSlackUserEmail(slackUserId).then(email => {
                 let rider = watchdog.getOrCreateUser(slackUserId, email);
                 watchdog.addRider(rideId, rider.id);
@@ -50,14 +50,14 @@ function handlePostMessageInvocations(watchdog) {
                     message_ts: payload.message_ts,
                     text: originalMessage.text,
                 });
-                
-                if(watchdog.isMaximum(rideId)) {
+
+                if (watchdog.isMaximum(rideId)) {
                     let riders = watchdog.getRidersAsString(rideId);
 
-                    const attachments = [{ 
-                        "fallback": "Will you like to lockdown now?", 
+                    const attachments = [{
+                        "fallback": "Will you like to lockdown now?",
                         "title": "Will you like to lockdown now?",
-                        "callback_id": `lockDownAction:${rideId}:${rideOwnerSlackId}`, 
+                        "callback_id": `lockDownAction:${rideId}:${rideOwnerSlackId}`,
                         "color": "#606089",
                         "attachment_type": "default",
                         "actions": [
@@ -66,36 +66,36 @@ function handlePostMessageInvocations(watchdog) {
                     }];
 
                     postMessage(rideOwnerSlackId, {
-                        ...copyMessage, 
+                        ...copyMessage,
                         text: `Your ride request was attended to by ${riders}.\n When you commence your ride, click the button to lock it down.`,
                         attachments,
                     }); // send DM to rideOwner
                 }
 
-                postEphemeral({channel, user: slackUserId, ...copyMessage});
+                postEphemeral({ channel, user: slackUserId, ...copyMessage });
             }).catch(err => console.log(err.message));
-            
+
         } else if (LEAVE_ACTION.value == sentAction.value) {
             let riderId = others[0];
             watchdog.removeRider(rideId, riderId);
             copyMessage.callback_id = `joinRideAction:${rideId}:${rideOwnerSlackId}`;
             copyMessage.attachments[0].actions = JSON.stringify([
-                JOIN_ACTION 
+                JOIN_ACTION
             ]);
-            postEphemeral({ channel, user: slackUserId, ...copyMessage});
+            postEphemeral({ channel, user: slackUserId, ...copyMessage });
         } else if (LOCKDOWN_ACTION.value == sentAction.value) {
             copyMessage.attachments[0].actions = [];
-            postEphemeral({ channel, user: slackUserId, ...copyMessage}); //removing actions in DM
-            
+            postEphemeral({ channel, user: slackUserId, ...copyMessage }); //removing actions in DM
+
             let broadcastParams = watchdog.getBroadcastParams(rideId);
 
             copyMessage = {
-                text: broadcastParams.text, 
+                text: broadcastParams.text,
                 attachments: JSON.stringify([])
             };
             postMessage(broadcastParams.channel, copyMessage); //removing actions in broadcast channel
 
-            reactionAdd({name:'lock', channel: broadcastParams.channel, timestamp: broadcastParams.message_ts});
+            reactionAdd({ name: 'lock', channel: broadcastParams.channel, timestamp: broadcastParams.message_ts });
         }
 
         return res.sendStatus(200);
@@ -113,14 +113,14 @@ function handlePostCancelRideRequest(watchdog) {
     return (req, res) => {
         const { rideId } = req.body;
         const broadcastParams = watchdog.getBroadcastParams(rideId);
-        
+
         const copyMessage = {
-            text: broadcastParams.text, 
+            text: broadcastParams.text,
             attachments: JSON.stringify([])
         };
 
         postMessage(broadcastParams.channel, copyMessage);
-        reactionAdd({name:'x', channel: broadcastParams.channel, timestamp: broadcastParams.message_ts});
+        reactionAdd({ name: 'x', channel: broadcastParams.channel, timestamp: broadcastParams.message_ts });
         return res.sendStatus(200);
     }
 }

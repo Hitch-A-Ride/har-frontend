@@ -2,7 +2,7 @@ import { data } from 'app/actions/actionTypes';
 
 export const register = (store, uid) => {
   const myDestinationsRef = firebase.database().ref(`/users/${uid}/destinations`);
-  const defaultDestinationRef = firebase.database().ref(`/users/${uid}/defaultDestination`);
+  const myDefaultsRef = firebase.database().ref(`/users/${uid}/defaults`);
   const myProfileRef = firebase.database().ref(`/users/${uid}/profile`);
 
   myDestinationsRef.on('value', (snapshot) => {
@@ -12,9 +12,9 @@ export const register = (store, uid) => {
     });
   });
 
-  defaultDestinationRef.on('value', (snapshot) => {
+  myDefaultsRef.on('value', (snapshot) => {
     store.dispatch({
-      type: data.DEFAULT_DESTINATION,
+      type: data.DEFAULTS,
       payload: snapshot.val()
     });
   });
@@ -27,6 +27,8 @@ export const register = (store, uid) => {
   });
 };
 
-export const unregister = () => {
-
+export const unregister = (uid) => {
+  firebase.database().ref(`/users/${uid}/destinations`).off();
+  firebase.database().ref(`/users/${uid}/defaults`).off();
+  firebase.database().ref(`/users/${uid}/profile`).off();
 };

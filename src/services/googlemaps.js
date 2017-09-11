@@ -50,6 +50,7 @@ export const geocode = location => (
     geocoder.geocode({
       location
     }, (results, status) => {
+      console.log(results);
       if (status === google.maps.GeocoderStatus.OK && results[0]) {
         resolve(results[0]);
       } else {
@@ -84,13 +85,13 @@ export const getArea = location => (
     geocode(location).then((geoCodeResult) => {
       const address = filterAddressComponents(geoCodeResult.address_components);
       if (!address.country || !address.area || !address.neighborhood) {
-        Materialize.toast('An error occurred while parsing your destination');
+        Materialize.toast('An error occurred while parsing your destination', 2000, 'red');
         reject();
       } else {
         resolve(address);
       }
     }, () => {
-      Materialize.toast('An error occurred while parsing your destination');
+      Materialize.toast('An error occurred while parsing your destination', 2000, 'red');
       reject();
     });
   })

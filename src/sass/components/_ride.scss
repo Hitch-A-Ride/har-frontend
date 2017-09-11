@@ -1,0 +1,28 @@
+
+.create-ride {
+  background-color: #f4f4f4 !important;
+  color: #000000;
+  width: 90%;
+  margin: auto;
+  border-radius: 5%;
+  padding: 10%;
+
+  h2{
+    color: #bdbdbd;
+    font-weight: bold;
+  }
+
+  #seats{
+    margin-left: initial;
+    .s2 {
+      margin: initial !important;
+    }
+    h4 {
+      margin-top: 50%;
+    }
+  }
+
+  button {
+    margin: auto !important;
+  }
+}

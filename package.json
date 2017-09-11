@@ -1,5 +1,5 @@
 {
-  "name": "har-frontend",
+  "name": "hitch-a-ride",
   "version": "1.0.0",
   "description": "A community carpool",
   "main": "server.js",
@@ -8,13 +8,13 @@
     "postinstall": "npm run build",
     "prebuild": "rm -rf static && mkdir static",
     "prewatch": "npm run prebuild",
-    "start": "node server.js",
+    "start": "node -r babel-register server.js",
     "watch": "webpack-dev-server --progress --colors",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Hitch-A-Ride/har-frontend.git"
+    "url": "git+https://github.com/andela-pessien/hitch-a-ride.git"
   },
   "keywords": [
     "carpool",
@@ -23,9 +23,9 @@
   "author": "Hitch-A-Ride",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Hitch-A-Ride/har-frontend/issues"
+    "url": "https://github.com/andela-pessien/hitch-a-ride/issues"
   },
-  "homepage": "https://github.com/Hitch-A-Ride/har-frontend#readme",
+  "homepage": "https://github.com/andela-pessien/hitch-a-ride#readme",
   "engines": {
     "node": "7.10.1",
     "npm": "4.2.0"

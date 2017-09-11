@@ -1,24 +1,17 @@
-import { promise } from 'app/actions/actionTypes';
 import * as Firebase from 'app/services/firebase';
+import { promise } from './actionTypes';
 
 export const signIn = () => ({
   type: promise.SIGNIN,
-  payload: new Promise((resolve, reject) => {
-    Firebase.signIn().then(() => {
-      resolve();
-    }, (error) => {
-      reject(error);
-    });
-  })
+  payload: Firebase.signIn()
 });
 
 export const signOut = () => ({
   type: promise.SIGNOUT,
-  payload: new Promise((resolve, reject) => {
-    Firebase.signOut().then(() => {
-      resolve();
-    }, (error) => {
-      reject(error);
-    });
-  })
+  payload: Firebase.signOut()
+});
+
+export const saveProfile = (uid, profileDetails) => ({
+  type: promise.SAVE_PROFILE,
+  payload: Firebase.saveProfile(uid, profileDetails)
 });

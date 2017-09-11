@@ -7,7 +7,8 @@ import Preloader from 'app/components/common/Preloader';
 
 class Main extends Component {
   route(Page) {
-    if (this.props.authInProgress) {
+    const { authInProgress, uid, isAuthenticated } = this.props;
+    if (authInProgress || (!uid && isAuthenticated)) {
       return (
         <div className="centered-container">
           <Preloader />
@@ -18,10 +19,12 @@ class Main extends Component {
   }
 
   render() {
+    const DashboardRoute = this.route.bind(this, Dashboard);
+    const LoginRoute = this.route.bind(this, LoginPage);
     return (
       <Switch>
-        <Route exact path="/" render={this.route.bind(this, Dashboard)} />
-        <Route exact path="/login" render={this.route.bind(this, LoginPage)} />
+        <Route exact path="/login" render={LoginRoute} />
+        <Route path="/" render={DashboardRoute} />
       </Switch>
     );
   }
