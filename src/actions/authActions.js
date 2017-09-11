@@ -1,5 +1,5 @@
-import { promise } from 'app/actions/actionTypes';
 import * as Firebase from 'app/services/firebase';
+import { promise } from './actionTypes';
 
 export const signIn = () => ({
   type: promise.SIGNIN,

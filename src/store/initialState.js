@@ -5,9 +5,10 @@ export const auth = {
 
 export const ride = {
   destination: '',
-  seats: 0,
+  seats: 1,
   time: '',
 };
+
 export default {
   auth,
   ride

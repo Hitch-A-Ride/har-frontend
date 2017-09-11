@@ -28,6 +28,8 @@ body,
   @include center-contents;
   flex-direction: column;
   height: 100%;
+  min-height: 100%;
+  min-width: 100%;
   width: 100%;
 }
 
@@ -39,6 +41,10 @@ body,
   .main {
     flex-grow: 1;
     height: 90%;
+
+    @media screen and (max-width: 600px) {
+      padding: 2%;
+    }
   }
 }
 
@@ -48,4 +54,31 @@ body,
 
 .row .col {
   padding: 0 .25em;
+}
+
+.row.view {
+  width: 100%;
+
+  form {
+    @include center-contents;
+    flex-direction: column;
+    min-height: 400px;
+    width: 100%;
+
+    @media screen and (max-width: 480px) {
+      min-height: 300px;
+    }
+
+    & > .row {
+      width: 100%;
+    }
+  }
+}
+
+.view-action {
+  padding-bottom: 40px;
+
+  @media screen and (max-width: 480px) {
+    padding-bottom: 30px;
+  }
 }

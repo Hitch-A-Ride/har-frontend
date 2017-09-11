@@ -15,7 +15,7 @@
 @mixin center-contents {
   align-items: center;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   text-align: center;
 }
 

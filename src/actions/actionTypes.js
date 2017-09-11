@@ -2,7 +2,8 @@ export const promise = {
   SIGNIN: 'SIGNIN',
   SIGNOUT: 'SIGNOUT',
   ADD_DESTINATION: 'ADD_DESTINATION',
-  SAVE_PROFILE: 'SAVE_PROFILE'
+  SAVE_PROFILE: 'SAVE_PROFILE',
+  CREATE_RIDE: 'CREATE_RIDE',
 };
 
 export const data = {

@@ -19,10 +19,12 @@ class Main extends Component {
   }
 
   render() {
+    const DashboardRoute = this.route.bind(this, Dashboard);
+    const LoginRoute = this.route.bind(this, LoginPage);
     return (
       <Switch>
-        <Route path="/" render={this.route.bind(this, Dashboard)} />
-        <Route path="/login" render={this.route.bind(this, LoginPage)} />
+        <Route exact path="/login" render={LoginRoute} />
+        <Route path="/" render={DashboardRoute} />
       </Switch>
     );
   }

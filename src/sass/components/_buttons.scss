@@ -3,14 +3,22 @@
 // ==========================================================================
 
 .btn {
-  background: $white;
-  color: $secondary-text-color;
-  font-weight: 400;
+  background: $primary-color;
+  color: $white;
+  font-weight: 300;
 
-  &:active,
   &:hover,
   &:focus {
-    background: $white;
+    background: $light-primary-color;
+  }
+
+  &:active {
+    background: $dark-primary-color;
+  }
+
+  &.full {
+    padding: 0;
+    width: 100%;
   }
 }
 
@@ -27,7 +35,7 @@
   }
 
   .separator {
-    border-left: $separator-width solid $primary-color;
+    border-left: $separator-width solid $white;
   }
 
   .text-container {

@@ -5,7 +5,7 @@ export default (state = ride, action = {}) => {
     case 'POST_RIDE':
       return {
         ...state,
-        rideInProgress: true,
+        ...action.payload,
       };
     default:
       return state;

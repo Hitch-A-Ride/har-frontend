@@ -23,11 +23,7 @@ class SelectRideDetails extends Component {
       donetext: 'Select',
       cleartext: 'Clear',
       canceltext: 'Cancel',
-      autoclose: true,
-      aftershow: () => {}
-    });
-    $('#setup-time').change(() => {
-      this.setState({ time: $('#setup-time').val() });
+      autoclose: false,
     });
   }
 
@@ -36,18 +32,21 @@ class SelectRideDetails extends Component {
   }
 
   save() {
-    if (this.state.time && this.state.seats) {
-      console.log(this.state);
-      Firebase.setDefault(this.props.uid, this.state)
-        .then(() => {
-          this.props.nextItem();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else {
-      Materialize.toast('Please fill in all options', 2000, 'red');
-    }
+    this.setState({
+      time: $('#setup-time').val()
+    }, () => {
+      if (this.state.time && this.state.seats) {
+        Firebase.setDefault(this.props.uid, this.state)
+          .then(() => {
+            this.props.nextItem();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        Materialize.toast('Please fill in all options', 2000, 'red');
+      }
+    });
   }
 
   render() {
@@ -78,6 +77,8 @@ class SelectRideDetails extends Component {
                   <option value="2">2</option>
                   <option value="3">3</option>
                   <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
                 </select>
                 <label htmlFor="setup-seats">How many seats does your ride offer?</label>
               </div>
